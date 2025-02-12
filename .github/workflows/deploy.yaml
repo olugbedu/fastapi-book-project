@@ -30,6 +30,7 @@ jobs:
           script: |
             sudo apt-get update
             git clone ${{ vars.REPO }}
+            git pull origin main
             cd /home/${{ secrets.EC2_USERNAME }}/fastapi-book-project
             sudo apt-get install -y docker.io docker-compose
             sudo systemctl start docker
