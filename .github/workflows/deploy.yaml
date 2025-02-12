@@ -30,7 +30,7 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            cd /home/${{ secrets.EC2_USERNAME }}/app
+            cd /home/${{ secrets.EC2_USERNAME }}/fastapi-book-project
             sudo apt-get update
             git clone ${{ vars.REPO }}
             sudo apt-get install -y docker.io docker-compose
