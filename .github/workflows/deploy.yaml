@@ -23,15 +23,6 @@ jobs:
           docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/fastapi-app:latest .
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/fastapi-app:latest
       
-      - name: Copy config files to EC2
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USERNAME }}
-          key: ${{ secrets.EC2_SSH_KEY }}
-          source: "docker-compose.yaml,nginx.conf"
-          target: "/home/${{ secrets.EC2_USERNAME }}/app"
-      
       - name: Deploy to EC2
         uses: appleboy/ssh-action@master
         with:
@@ -41,6 +32,7 @@ jobs:
           script: |
             cd /home/${{ secrets.EC2_USERNAME }}/app
             sudo apt-get update
+            git clone ${{ vars.REPO }}
             sudo apt-get install -y docker.io docker-compose
             sudo systemctl start docker
             sudo systemctl enable docker
